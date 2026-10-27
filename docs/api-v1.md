@@ -5,6 +5,7 @@ photon provides the following endpoints:
 * [/api](#search) for forward search (finding a place by its name and address)
 * [/structured](#structured-search) for finding places by a well-formatted address
 * [/reverse](#reverse) for reverse geocoding (finding out what is at a given coordinate)
+* [/reverse/baidu](#baidu-compatible-reverse) for a Baidu-shaped reverse geocoding response
 * [/status](#status) as a health check of the server
 * (optional) `/update` endpoint for triggering updates,
   see [Usage/updates](usage.md#running-updates-via-the-api)
@@ -93,6 +94,17 @@ to reverse geocode within. The value has to be between 0 and 5000 km.
 
 The /reverse call can be customized with the
 [common parameters](#parameters-common-to-search-and-reverse).
+
+### Baidu-compatible reverse
+
+`/reverse/baidu` accepts the same query parameters as `/reverse` and returns
+the result using Baidu's reverse-geocoding response structure. Its `pois`
+array contains the matching results, with the fields used by Baidu POI objects.
+The same query parameters and result limits as `/reverse` apply.
+
+```
+http://localhost:2322/reverse/baidu?lon=10&lat=52
+```
 
 ## Parameters common to Search and Reverse
 

@@ -143,6 +143,21 @@ public class OpenSearchResult implements PhotonResult {
     }
 
     @Override
+    @Nullable
+    public String getAlternativeName(String key, String primaryName, String... alternativeNameKeys) {
+        final var map = localeTags.get(key);
+        if (map == null) return null;
+
+        for (var nameKey : alternativeNameKeys) {
+            final var name = map.get(nameKey);
+            if (name != null && !name.isBlank() && !name.equals(primaryName)) {
+                return name;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public double[] getCoordinates() {
         return coordinates;
     }

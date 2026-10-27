@@ -10,6 +10,7 @@ import de.komoot.photon.nominatim.ImportThread;
 import de.komoot.photon.nominatim.NominatimImporter;
 import de.komoot.photon.nominatim.NominatimUpdater;
 import de.komoot.photon.query.*;
+import de.komoot.photon.searcher.BaiduResultFormatter;
 import de.komoot.photon.searcher.GeoJsonFormatter;
 import de.komoot.photon.searcher.TagFilter;
 import io.javalin.Javalin;
@@ -438,6 +439,15 @@ public class App {
                             dbProperties.getSupportGeometries()),
                     server.createReverseHandler(args.getQueryTimeout()),
                     formatter));
+
+            config.routes.get("/reverse/baidu", new GenericSearchHandler<>(
+                    new ReverseRequestFactory(
+                            dbProperties.getLanguages(),
+                            args.getDefaultLanguage(),
+                            args.getMaxReverseResults(),
+                            dbProperties.getSupportGeometries()),
+                    server.createReverseHandler(args.getQueryTimeout()),
+                    new BaiduResultFormatter()));
 
             if (updater != null) {
                 // setup update API
